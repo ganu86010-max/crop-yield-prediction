@@ -1,9 +1,11 @@
 """Crop Yield Analytics — Flask API and web application."""
+import os
 from pathlib import Path
 
 import numpy as np
 import pandas as pd
 from flask import Flask, jsonify, render_template, request
+from flask_cors import CORS
 from sklearn.compose import ColumnTransformer
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.linear_model import LinearRegression
@@ -17,6 +19,9 @@ DATA_PATH = BASE_DIR / "crop_yield_dataset.csv"
 FEATURES = ["Rainfall", "Temperature", "Fertilizer", "Soil_Quality"]
 
 app = Flask(__name__)
+# In production, restrict browser access with ALLOWED_ORIGINS=https://your-frontend.example.
+allowed_origins = os.getenv("ALLOWED_ORIGINS", "*")
+CORS(app, resources={r"/api/*": {"origins": allowed_origins.split(",") if allowed_origins != "*" else "*"}})
 df = pd.read_csv(DATA_PATH)
 X = df[FEATURES]
 y = df["Crop_Yield"]
@@ -50,6 +55,11 @@ def metrics_for(model):
 @app.get("/")
 def index():
     return render_template("index.html")
+
+
+@app.get("/health")
+def health():
+    return jsonify({"status": "ok", "service": "crop-yield-analytics", "model": best_model_name})
 
 
 @app.get("/api/summary")
@@ -96,4 +106,5 @@ def predict():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    port = int(os.getenv("PORT", "5000"))
+    app.run(host="0.0.0.0", port=port, debug=os.getenv("FLASK_DEBUG", "0") == "1")

@@ -1,4 +1,6 @@
 Flask>=3.0,<4.0
+Flask-Cors>=4.0,<7.0
+gunicorn>=22.0,<24.0
 numpy>=1.24
 pandas>=2.0
 scikit-learn>=1.3
