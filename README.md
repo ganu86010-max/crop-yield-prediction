@@ -19,7 +19,9 @@ pip install -r requirements.txt
 python app.py
 ```
 
-Open **http://localhost:5000** in a browser.
+Open the dashboard locally: **[http://localhost:5000](http://localhost:5000)**
+
+> Keep the Flask process running while opening the link. On the Arena preview, use the live preview shown for the running `Fieldwise analytics dashboard` server.
 
 ## API
 
