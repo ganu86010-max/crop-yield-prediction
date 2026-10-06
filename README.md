@@ -1,42 +1,34 @@
-🌾 Crop Yield Prediction using Machine Learning
+# Fieldwise — Crop Yield Analytics
 
-This project focuses on predicting crop yield based on various environmental and agricultural factors using machine learning techniques. Accurate crop yield prediction helps farmers, policymakers, and agricultural stakeholders make informed decisions regarding crop planning, resource allocation, and food supply management.
+A full-stack agricultural data analytics application built around the crop yield dataset. The project now includes a Flask API, a responsive analytics dashboard, interactive charts, live field records, model comparison, and a prediction workflow.
 
-📌 Overview
+## What is included
 
-The system uses historical agricultural data such as rainfall, temperature, soil type, humidity, and crop type to build predictive models. By analyzing these features, the model estimates the expected yield for a given set of conditions.
+- **Analytics dashboard** — yield KPIs, rainfall/yield relationship chart, yield distribution, and recent records.
+- **Prediction API and UI** — enter rainfall, temperature, fertilizer, and soil quality to estimate output in kg/ha.
+- **Model evaluation** — compares polynomial regression and random forest on a reproducible 80/20 holdout split using R², MAE, and RMSE.
+- **Data endpoints** — JSON endpoints for dashboard summary, records, and predictions.
+- **Responsive frontend** — works on desktop, tablet, and mobile without a separate build step.
 
-⚙️ Technologies Used
-Python
-Pandas, NumPy (Data Processing)
-Matplotlib, Seaborn (Data Visualization)
-Scikit-learn (Machine Learning Models)
-🧠 Machine Learning Models
-Linear Regression
-Decision Tree Regressor
-Random Forest Regressor
-📊 Features
-Data preprocessing and cleaning
-Exploratory Data Analysis (EDA)
-Model training and evaluation
-Yield prediction based on user inputs
-Performance comparison of multiple models
-🚀 How It Works
-Collect and preprocess agricultural data
-Perform exploratory data analysis to identify patterns
-Train machine learning models on the dataset
-Evaluate models using metrics like RMSE and R² score
-Predict crop yield for new input data
-📈 Results
+## Run locally
 
-The project compares different machine learning models and selects the most accurate one for prediction. Random Forest typically provides better accuracy due to its ability to handle nonlinear relationships.
+```bash
+python -m venv .venv
+source .venv/bin/activate       # Windows: .venv\Scripts\activate
+pip install -r requirements.txt
+python app.py
+```
 
-🌍 Applications
-Smart farming
-Agricultural planning
-Food security analysis
-Precision agriculture
-📌 Future Improvements
-Integration with real-time weather APIs
-Use of deep learning models
-Deployment as a web application
+Open the dashboard locally: **[http://localhost:5000](http://localhost:5000)**
+
+> Keep the Flask process running while opening the link. On the Arena preview, use the live preview shown for the running `Fieldwise analytics dashboard` server.
+
+## API
+
+- `GET /api/summary` — KPIs, model metrics, and chart data
+- `GET /api/records?limit=10` — dataset records
+- `POST /api/predict` — JSON body: `{"rainfall": 900, "temperature": 25, "fertilizer": 120, "soil_quality": 7}`
+
+## Original analysis script
+
+`cropyieldprediction.py` is kept as a standalone notebook-style polynomial regression analysis. The production application in `app.py` reuses the same CSV data and adds a model registry and web API.
